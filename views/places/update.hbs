@@ -1,0 +1,12 @@
+<div>
+  <form action="/places/update/{{ place._id }}"method="POST">
+    <label for="name-input">Place name:</label>
+    <input id="name-input" type="text" name="name" value={{ place.name }}>
+    <select name="type" id="type-select">
+      <option value="coffee_shop">Coffee Shop</option>
+      <option value="book_store">Book Store</option>
+    </select>
+    <br>
+    <button>Update place in database</button>
+  </form>
+</div>

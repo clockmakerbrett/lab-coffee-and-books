@@ -1,2 +1,40 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div>
+  <h1>Welcome to all the places</h1>
+  <div id="map-container"></div>
+  {{#each places}}
+    <h3>{{ name }}</h3>
+    <p>{{ type }}</p>
+    <p>Lat.{{ location.coordinates.[1] }}, Lon. {{ location.coordinates.[0] }}</p>
+    <a href="/places/update/{{ _id }}">edit this place</a>
+    <form class="delete-form" action="/places/delete/{{ _id }}" method="POST">
+      <button class="delete-button">delete this place</button>
+    </form>
+  {{/each}}
+
+  <script>
+    function init () {
+    const mapContainerElement = document.getElementById('map-container');
+    const map = new window.google.maps.Map(mapContainerElement, {
+      center: {
+        lat: 45.5,
+        lng: -122.5
+      },
+      zoom: 9
+    });
+
+    const places = {{{ json places }}};
+
+    for (let place of places) {
+      const marker = new window.google.maps.Marker({
+        map,
+        position: {
+          lat: place.location.coordinates[1],
+          lng: place.location.coordinates[0]
+        }
+      });
+    }
+  }
+  </script>
+
+  <script defer src="https://maps.googleapis.com/maps/api/js?key={{ environmentVariables.GOOGLE_MAPS_API_KEY }}&callback=init"></script>
+</div>
